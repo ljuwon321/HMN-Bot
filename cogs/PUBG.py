@@ -205,8 +205,9 @@ class PUBG():
             embed.set_thumbnail(url=player_stats.get('tier').get('image_url'))
             await ctx.send(embed=embed)
 
-    @commands.command(aliases=['leaderboards'])
-    async def pubgleaderboard(self, ctx, *, message: str=''):
+    #@commands.command(aliases=['leaderboards'])
+    @commands.command()
+    async def 혼모노랭킹(self, ctx, *, message: str=''):
         """: See who's the best on your team!"""
         with ctx.typing():
             stats = []
