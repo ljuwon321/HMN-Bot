@@ -13,7 +13,7 @@ class MakeConfig:
         self.case_insensitive = False
         self.get_info()
         self.config.data = {
-            'token': self.token,
+            #'token': self.token,
             'traceback': False,
             'Bot Settings': {
                 'command_prefix': self.prefix,
