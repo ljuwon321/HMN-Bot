@@ -102,7 +102,8 @@ def load_settings():
     bot.command_prefix = bot.config.data.get('Bot Settings').get('command_prefix')
     bot.description = bot.config.data.get('Bot Settings').get('description')
     bot.pm_help = bot.config.data.get('Bot Settings').get('pm_help')
-    bot.token = bot.config.data.get('token')
+    #bot.token = bot.config.data.get('token')
+    bot.token = os.environ["BOT_TOKEN"]
     bot.case_insensitive = bot.config.data.get('Bot Settings').get('case_insensitive')
 
 
@@ -137,4 +138,5 @@ bot.add_cog(Bot_Logging(bot))
 bot.add_cog(Utils(bot))
 load_extensions()
 bot.loop.create_task(create_aiohttp())
-bot.run(settings.data.get('token'))
+#bot.run(settings.data.get('token'))
+bot.run(os.environ["BOT_TOKEN"])
