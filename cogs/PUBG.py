@@ -186,6 +186,9 @@ class PUBG():
         else:
             grade = player_stats.get("grade")
             avg_dmg = round(player_stats.get("stats").get("damage_dealt_avg"), 2)
+            avg_suv_raw = int(player_stats.get("stats").get("time_survived_avg"))
+            avg_suv = '{0}:{1}'.format(avg_suv_raw//60, avg_suv_raw-((avg_suv_raw//60)*60))
+            avg_ranks = '#{}'.format(round(player_stats.get('stats').get('rank_avg'), 1))
             region = regions.get(data.get('region'))
             mode = data.get('mode').upper()
             r_points = player_stats.get('stats').get('rank_points')
@@ -199,11 +202,20 @@ class PUBG():
             embed.add_field(name="누적 치킨", value='{}마리'.format(player_stats['stats']['win_matches_cnt']), inline=True)
             embed.add_field(name="누적 TOP 10(확률%)", value='{0}회({1}%)'.format(player_stats['stats']['topten_matches_cnt'], round((player_stats['stats']['topten_matches_cnt']/player_stats['stats']['matches_cnt'])*100, 2)), inline=True)
             embed.add_field(name="평균 딜량", value=avg_dmg, inline=True)
+            embed.add_field(name="평균 생존시간", value=avg_suv, inline=True)
+            embed.add_field(name="평균 등수", value=avg_ranks, inline=True)
+            
             embed.add_field(name='누적 킬', value='{}킬'.format(player_stats['stats']['kills_sum']), inline=True)
+            embed.add_field(name='최다 킬', value='{}킬'.format(player_stats['stats']['kills_max']), inline=True)
+            
+            
             if player_stats['stats']['deaths_sum'] is 0:
                 embed.add_field(name="K/D", value=player_stats['stats']['kills_sum'], inline=True)
+                embed.add_field(name="KDA", value=player_stats['stats']['kills_sum'] + player_stats['stats']['assists_sum'], inline=True)
             else:
-                embed.add_field(name="K/D", value=round(player_stats['stats']['kills_sum']/player_stats['stats']['deaths_sum'], 2), inline=True)
+                embed.add_field(name="K/D", value=round(player_stats['stats']['kills_sum'] / player_stats['stats']['deaths_sum'], 2), inline=True)
+                embed.add_field(name="KDA", value=round((player_stats['stats']['kills_sum'] + player_stats['stats']['assists_sum']) / player_stats['stats']['deaths_sum'], 2), inline=True)
+
             embed.set_footer(text='시즌: '+data['season'])
             embed.set_thumbnail(url=player_stats.get('tier').get('image_url'))
             await ctx.send(embed=embed)
