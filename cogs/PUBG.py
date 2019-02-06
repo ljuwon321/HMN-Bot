@@ -172,6 +172,7 @@ class PUBG():
             size = player_data['size']
         url = 'https://pubg.op.gg/api/users/{0.playerid}/ranked-stats?season={0.season}&server={0.server}&queue_size={0.size}&mode={0.match}'.format(profile)
         player_stats = await self.PUBG_API(url)
+        print(player_stats)#
         return player_stats
 
     async def print_stats(self, ctx, data):
@@ -189,13 +190,16 @@ class PUBG():
             region = regions.get(data.get('region'))
             mode = data.get('mode').upper()
             r_points = player_stats.get('stats').get('rank_points')
+            r_ranks = player_stats.get('ranks').get('rank_points')
+            r_ranks_per = round((r_ranks/player_stats.get('max_ranks').get('rank_points'))*100, 2)
             tier = player_stats.get('tier').get('title')
+            
             embed = discord.Embed(title=data['nickname'], url=f'https://pubg.op.gg/user/{data.get("nickname")}?server={data.get("region")}',
-                                  description=f'{region}-{mode}\n랭크 포인트: **{r_points}**\n평균 딜량: **{avg_dmg}**\n랭크: **{tier}**', color=0x00ff00)
-            embed.add_field(name="랭크 순위", value='{0}위(상위 {1}%)'.format(player_stats['ranks']['rank_points'], round((player_stats['ranks']['rank_points']/player_stats['max_ranks']['rank_points'])*100, 2)), inline=True)
-            embed.add_field(name="치킨", value='{}마리'.format(player_stats['stats']['win_matches_cnt']), inline=True)
-            embed.add_field(name="승률", value='{}%'.format(round(player_stats['stats']['win_matches_cnt']/player_stats['stats']['matches_cnt']*100, 2), inline=True))
+                                  description=f'{region}-{mode}\n랭크 포인트: **{r_points}**\n랭크 순위: **{r_ranks}위(상위 {r_ranks_per}%)**\n랭크: **{tier}**', color=0x00ff00)
+            embed.add_field(name="승률", value='{}%'.format(round(player_stats['stats']['win_matches_cnt']/player_stats['stats']['matches_cnt']*100, 2), inline=True))   
+            embed.add_field(name="누적 치킨", value='{}마리'.format(player_stats['stats']['win_matches_cnt']), inline=True)
             embed.add_field(name="누적 TOP 10(확률%)", value='{0}회({1}%)'.format(player_stats['stats']['topten_matches_cnt'], round((player_stats['stats']['topten_matches_cnt']/player_stats['stats']['matches_cnt'])*100, 2)), inline=True)
+            embed.add_field(name="평균 딜량", value=avg_dmg, inline=True)
             embed.add_field(name='누적 킬', value='{}킬'.format(player_stats['stats']['kills_sum']), inline=True)
             if player_stats['stats']['deaths_sum'] is 0:
                 embed.add_field(name="K/D", value=player_stats['stats']['kills_sum'], inline=True)
