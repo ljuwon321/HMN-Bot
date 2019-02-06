@@ -173,11 +173,11 @@ class PUBG():
         url = 'https://pubg.op.gg/api/users/{0.playerid}/ranked-stats?season={0.season}&server={0.server}&queue_size={0.size}&mode={0.match}'.format(profile)
         player_stats = await self.PUBG_API(url)
         print(player_stats)#
-        await ctx.send(player_stats)
         return player_stats
 
     async def print_stats(self, ctx, data):
         player_stats = await self.get_stats(data)
+        await ctx.send(player_stats)
         if 'message' in player_stats:
             if player_stats['message'] != '':
                 text = player_stats['message']
