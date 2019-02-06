@@ -29,7 +29,25 @@ regions = {	'na': '[NA] North America',
             'eu': '[EU] Europe'
             }
 
-
+ranks_title = {
+    'Beginner V': '초심 5',
+    'Beginner IV': '초심 4',
+    'Beginner III': '초심 3',
+    'Beginner II': '초심 2',
+    'Beginner I': '초심 1',
+    'Novice V': '견습 5',
+    'Novice IV': '견습 4',
+    'Novice III': '견습 3',
+    'Novice II': '견습 2',
+    'Novice I': '견습 1',
+    'Experienced V': '경험 5',
+    'Experienced IV': '경험 4',
+    'Experienced III': '경험 3',
+    'Experienced II': '경험 2',
+    'Experienced I': '경험 1'
+    }
+    
+    
 class default:
     mode = 'squad'
     region = 'krjp'
@@ -195,6 +213,7 @@ class PUBG():
             r_ranks = player_stats.get('ranks').get('rank_points')
             r_ranks_per = round((r_ranks/player_stats.get('max_ranks').get('rank_points'))*100, 2)
             tier = player_stats.get('tier').get('title')
+            tier = tier.replace('Beginner', '초심').replace('Novice', '견습').replace('Experienced', '경험').replace('Skilled', '숙련').replace('Specialist', '전문').replace('Expert', '전문가').replace('Survivor', '생존자').replace('Lone survivor', '유일한 생존자')
             
             embed = discord.Embed(title=data['nickname'], url=f'https://pubg.op.gg/user/{data.get("nickname")}?server={data.get("region")}',
                                   description=f'{region}-{mode}\n랭크 포인트: **{r_points}**\n랭크 순위: **{r_ranks}위(상위 {r_ranks_per}%)**\n랭크: **{tier}**', color=0x00ff00)
