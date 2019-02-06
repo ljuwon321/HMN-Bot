@@ -205,7 +205,7 @@ class PUBG():
             grade = player_stats.get("grade")
             avg_dmg = round(player_stats.get("stats").get("damage_dealt_avg"), 2)
             avg_suv_raw = int(player_stats.get("stats").get("time_survived_avg"))
-            avg_suv = '{0}:{1}'.format(avg_suv_raw//60, avg_suv_raw-((avg_suv_raw//60)*60))
+            avg_suv = '{0}분 {1}초'.format(avg_suv_raw//60, avg_suv_raw-((avg_suv_raw//60)*60))
             avg_ranks = '#{}'.format(round(player_stats.get('stats').get('rank_avg'), 1))
             region = regions.get(data.get('region'))
             mode = data.get('mode').upper()
